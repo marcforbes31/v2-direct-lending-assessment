@@ -4,7 +4,8 @@
     include('../../include/connectdb.php');
     header("Content-Type:application/json");
 
-    $postcode = 30000;
-    getAllPostcode($connect);
+    //$postcode = 35000;
+    $postcode = htmlspecialchars($_GET['postcode']);
+    getSinglePostcode($connect, $postcode);
 
 ?>
