@@ -6,11 +6,13 @@ function fetchState(postcode){
 
     }).then((objectData)=>{
         if(Object.entries(objectData).length===0){
-            document.getElementById("state").value = "Invalid Postcode";
+            document.getElementById("state").value = "";
+            document.getElementById("submit-form").disabled = true;
             console.log('Inavlid Postcode');
         } else {
             document.getElementById("state").value = objectData[0].state;
-            
+            document.getElementById("postcodeid").value = objectData[0].id;
+            document.getElementById("submit-form").disabled = false;
         }
           
     }).catch((error)=>{
