@@ -9,7 +9,22 @@
             $resultArray[] = $fetchedrow;
         }
 
-        echo json_encode($resultArray, JSON_PRETTY_PRINT);
+        return json_encode($resultArray, JSON_PRETTY_PRINT);
+    }
+
+    function getAllCustomers($connect){
+        $resultArray = array();
+
+        $sql = "SELECT name,DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(), dob)), '%Y') + 0 AS age,address,postcode,state FROM customer INNER JOIN postcode ON customer.postcode_id = postcode.id";
+        $result = mysqli_query($connect, $sql);
+
+        while($fetchedrow = mysqli_fetch_assoc($result)){
+            $resultArray[] = $fetchedrow;
+
+        }
+
+        return json_encode($resultArray, JSON_PRETTY_PRINT);
+
     }
 
     function getSinglePostcode($connect, $postcode){
@@ -35,7 +50,7 @@
         }
 
         mysqli_stmt_close($stmt);
-        echo json_encode($resultArray, JSON_PRETTY_PRINT);
+        return json_encode($resultArray, JSON_PRETTY_PRINT);
 
     }
 
@@ -58,6 +73,9 @@
         } else {
             echo "Error inserting customer";
         }
+
+        mysqli_stmt_close($stmt);
+       
 
     }
 

@@ -8,7 +8,8 @@
 
     if($requestMethod == "GET"){
         $postcode = htmlspecialchars($_GET['postcode']);
-        getSinglePostcode($connect, $postcode);
+        $singleState = getSinglePostcode($connect, $postcode);
+        echo $singleState;
 
     } else {
         $data = [

@@ -16,6 +16,10 @@
             });
         });
 
+        $(document).ready(function(){
+            loadQuery();
+        });
+
 
         //Send form input to backend
         $(document).ready(function(){
@@ -36,8 +40,10 @@
                     url:'api/V1/create.php',
                     data: allinput,
                     success: function(){
-                        $('#message').append('<span class="text-success">Successfully saved</span>');
-                        //alert('Success');
+                        $('#message').html('<span class="text-success">Successfully saved</span>');
+                        $('#customersTable').empty();
+                        clearInput();
+                        loadQuery();
                         
                     },
                     error: function(){
@@ -47,6 +53,45 @@
             });
 
         });
+
+        //Get Query using AJAX
+        function loadQuery(){
+
+            $.ajax({
+                type: 'GET',
+                url: 'api/V1/customer.php',
+                success: function(customerlist){
+
+                    $.each(customerlist, function(i, customer){
+                       /* $('#customersTable').append(
+                            '<tr><td>'+customer.name+'</td><td>'+customer.age+'</td><td>'+customer.address+'</td><td>'+customer.postcode+'</td><td>'+customer.state+'</td></tr>'
+                        ); */
+                        appendCustomer(customer);
+                    });
+
+                },
+                error: function(){
+                    console.log('Error when trying to load query');
+                }
+            });
+
+        };
+
+        function appendCustomer(customer){
+            $('#customersTable').append(
+                            '<tr><td>'+customer.name+'</td><td>'+customer.age+'</td><td>'+customer.address+'</td><td>'+customer.postcode+'</td><td>'+customer.state+'</td></tr>'
+                        );
+        }
+
+        function clearInput(){
+            $("#username").val('');
+            $("#dob").val('');
+            $("#address").val('');
+            $("#postcode").val('');
+            $("#postcodeid").val('');
+            $("#state").val(''); 
+
+        }
         
 
     </script>
@@ -117,15 +162,9 @@
                         <th scope="col">State</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="customersTable">
 
-                      <tr>
-                        <th scope="row">Jack</th>
-                        <td>24</td>
-                        <td>222 Baker Street</td>
-                        <td>35000</td>
-                        <td>Perak</td>
-                      </tr>
+                     
                      
                     </tbody>
                   </table>
